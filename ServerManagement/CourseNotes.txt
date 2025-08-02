@@ -1,0 +1,76 @@
+﻿Blazor Server Application Notes - 08-02-25
+
+LESSON 4
+
+app.Run() - This runs the application in a loop, listening for httpRequests coming in
+
+
+app.UseHttpsRedirection();
+
+app.UserStaticFiles();
+app.UseAntiforgery();
+
+app.MapRazorComponents<App>();
+
+When an httprequest comes in, these functions (called middleware) add things to the request or handles the request with certain functionality
+
+
+app.MapRazorComponents<App>(); - This maps the HTTP request to the <App> Class
+
+
+App.razor is a plain html page, except that it has a 
+<Routes /> 	   Component
+<HeadOutlet /> Component
+
+
+All Requests that come into the app are routed to the <App> Class component.
+It is the Root component of the application
+This is the "Single Page" of the Single Page Framework of Blazor
+
+This page now uses the 
+<Routes /> component
+To find corresponding components, and place them in the <App>.razor body
+
+
+Routes.razor hols the <Router> Component
+The <Router> Component finds the Component you have requested and applies the Master Layout, which produces a final HTML Result, and returns it to the App.Razor
+
+
+***** ----- .razor means any file this extension is a razor component ----- *****
+
+PROCESS ROUTE
+
+HTTPS Request Mapped to App.razor
+App.Razor HTML calls Routes.Razor
+Routes.Razor uses <Router> Component to find the requested Component ("Weather", "Other")
+	Applies MainLayout to the Page Component
+	Component fills in the @Body part of the MainLayout
+This is returned to the App.Razor component and displayed
+
+
+LESSON 5: Link to the Source Code
+
+
+LESSON 6: Two Types of Components
+
+Two Types of Components
+
+	- Routable Component - This component acts like page.
+		These components can be located by the <Router /> component and palced in the Root Component (App.razor)
+		The single most important thing making a Component Routable
+			@page "/servers" directive is on the top
+
+
+	- Non-Routable Component (Reusable Component)
+		Can be used inside of each Routable component
+		Can be used inside of other Non-Routable Components
+
+		These will be called "Controls" and stored in the Controls folder in this course
+
+
+	- _Layout.razor - This is the application wide @using reference. Placing the folder directory in this will allow all apps to access the contained components without referencing the entire namespace or importing the using reference on each page or component.
+
+
+08/02/25 - 1:13
+Lesson 7 -Razor Syntax Implicit Razor Expression
+
