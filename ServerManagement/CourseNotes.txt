@@ -1,4 +1,6 @@
 ﻿Blazor Server Application Notes - 08-02-25
+https://www.udemy.com/course/blazor-deep-dive-from-beginner-to-advanced/learn/lecture/42460400#overview
+
 
 LESSON 4
 
@@ -73,4 +75,29 @@ Two Types of Components
 
 08/02/25 - 1:13
 Lesson 7 -Razor Syntax Implicit Razor Expression
+
+ - This lesson covers creating and referncing model and information.
+ - Models folder created
+ - Server model created with ServerID, Name, City, IsOnline created
+ - Server Initialization properties set to make IsOnline correlate to a random number (0, 1) that is set when instantiated
+ - Server 1 instance created in Routable Server Component Page
+ - Server 1 properties set to display in Non-Routable Server Component.
+	Server 1 properties set to attributes of HTML element properties (div data-name="server.Name")
+
+08/02/25 - 1:49
+Lesson 8 - Explicit Razor Expression
+	- Explicit Razor expression allow for complex .net code to be run in html
+		style="@($"color:{(server.IsOnline ? "green":"red")}")"
+
+08/03/25 - 2:07
+Lesson 9 - Create a static data Repository
+	- .txt file of basic Server Class List
+		- Server Crud operations included
+			- Spelling error in GetServres() method, not corrected by instructor yet
+	- Covering of importated methods for Server repository
+	- Short video
+
+08/03/25 - 08/02/25 2:20
+Lesson 10 - Razor Syntax Output list with looping
+
 
