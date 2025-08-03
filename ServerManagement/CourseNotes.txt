@@ -100,4 +100,76 @@ Lesson 9 - Create a static data Repository
 08/03/25 - 08/02/25 2:20
 Lesson 10 - Razor Syntax Output list with looping
 
+08/02/25 - 2:34
+Lesson 11 - Assignment - Loop over CitiesRepository to generate button list
+	- Copy CitiesRepository Class from video. No .txt provided. Very simple and short.
+	- Create a state variable in the Non-Routable Compononent Servers
+	- Loop over the cities list and place the @city in a <button> tag
 
+08/02/25 - 3:05
+Lesson 12 - Assignment 1: Answer
+
+
+08/03/25 - 10:12 
+Lesson 13 - Working with Static Resources
+	- Static Resources are mapped directly to the resource, not the components that are routed or called
+	- App Object configures the middleware pipeline
+		- MapRazorComponents<App>() maps components to blazor
+		- UseStaticFiles(); is responsible for mapping static resources
+	- Static resources must be placed in the wwwroot folder
+		- You can create subfolders (not-required, but necessary for organization)
+
+
+Lesson 14 - 08/03/25 - 10:23 
+Assignment 2: Create a Routable Component
+
+Lesson 15 - 08/03/25
+Assignment 2: Answer
+	- Created a EditServers RoutableComponent Page at @page "/servers/edit"
+	- Setup a link next to each server listing on the Servers.razor page
+	- Setup a link in the Nav Menu for going to the Servers.razo page
+
+Lesson 16 - 11:11
+Route Parameters & Route Constraints
+	- Set the parameter for the page as follows
+		@page "/servers/{id}"
+		The {param:int} can be anything as long as it matches the Parameter set in the code block
+		 :int sets the parameter type in the url
+	- [Parameter]
+	  public int? Id {get; set;}
+	  Paremeters must be marked with a [Parameter] attribute in the code block to designate them as a parameter for the component
+
+	- Some parameters can be optional @page "/servers/{name?}"
+		This will resolve even if a name is not specified
+
+
+Lesson 17 - 08/03/25 11:28
+Use OnParameterSet to receive parameter value
+
+	We need to use the parameter value that is specified when visiting the page (load server information for selected server Id)
+
+	There is one life cycle even that is triggered when the Component receives the parameter value
+
+	override OnParameterSet() is triggered when the component receives the param value from the UR
+	protected override Task OnParameterSetAsync is used for Asynchronous tasks
+
+
+Lesson 18 - 08/03/25 11:55
+Use Form and input components to display and collect data
+
+	Instead of using plaing html form elements and building pages.
+	We use Microsoft built in Blazor Form Components
+		<EditForm> - This has components built in like.
+			<InputText>
+			<InputNumber>
+			<InputCheckbox>
+	Speficy the Model reference with Model=" "
+		In this case, we are referencing the server that is specified in the @code {} in the component, which is an instance of the model
+
+	We use @bind-Value (Must have uppercase "V" on Value)
+		- This will bind the value of the specified Object to the field
+			@bind-value="server.Name"
+
+Lesson 19 - 08/03/25 12:
+Form Submission and model binding
+		

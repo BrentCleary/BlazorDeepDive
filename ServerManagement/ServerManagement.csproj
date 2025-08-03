@@ -10,4 +10,8 @@
     <Content Include="CourseNotes.txt" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>
