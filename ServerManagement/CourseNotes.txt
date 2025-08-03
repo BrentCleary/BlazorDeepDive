@@ -170,6 +170,65 @@ Use Form and input components to display and collect data
 		- This will bind the value of the specified Object to the field
 			@bind-value="server.Name"
 
-Lesson 19 - 08/03/25 12:
+Lesson 19 - 08/03/25 12:33
 Form Submission and model binding
+	How to submit data
+	Blazor SSR is like other web application when it comes to form submission
+
+When the user clicks submit, the form field and it's values are submitted back to the server (packed together as HTTP Request)
+The Server processess the HTTP Request
+	There are two important features
+	The Function (event)
+	The Parameters (variables)
+
+	All Edit Forms are required to have a form name (this is a component parameter)
+		FormName="formServer"
+	Need to specify an eventhandler
+		OnSubmit="Submit" - This is a function defined in the @code{} block
+
+	How Do you set properties for Form Submission
+
+	Any variable that is being submitted needs to be set as a property {get; set;}
+	It needs the Parameter heading type of
+	[SupplyParameterFromForm]
+
+	If we have multiple forms, each form needs to have it's own name
+		Inside the SupplyParameterFromForm property, specify the form name 
+		[SupplyParameterFromForm(FormName = "formServer")]
+
+	If the object being submitted already has value being populated, to make sure its value is not populated again on submission
+			
+			server ??= LogicHere
 		
+		This sets the static repository to only populate if the server is null
+		If the server is not null, the right-hand operation assignment will be skipped (assignment logic not executed)
+
+		To bind the reference to the specific server for updating, we need to add a reference field to the ID. Since we don't want it changed it can be hidden. I don't know if it needs also be protected.
+			<InputNumber @bind-Value="server.ServerId" hidden></InputNumber>
+
+
+Lesson 20 - 08/03/25 1:22
+Form Validations
+	Use Data Annotations which are a part of C# to define data requirements in the model.
+		using System.ComponentModel.DataAnnotations;
+		There are a number of different DataAnnotation Attributes that can specified for each property.
+
+	In the EditFrom Component
+		OnValidSumbit="Submit" - This needs to be OnValidSubmit
+		<DataAnnotationsValidator> Component needs to be included
+		<ValidationSummary> Component needs to be included
+
+	The C# validator formatting will automatically display when an invalid value is submitted
+	A warning will be prompted with the appropriate feedback
+	
+	To position the field validation message next to the fields
+		<div class="col">
+			<ValidationMessage For="() => server.Name"></ValidationMessage>
+		</div>
+	Add a class="col" to give the validation message a section inside of the row
+	Use the <ValidationMessage> component
+	Parameter is defined by an anonymous function "() => server.Name"  where you reference the specific property you are validating
+
+
+Lesson 21 - 08/03/25
+Navigation with NavigationManager & Dependency Injection
