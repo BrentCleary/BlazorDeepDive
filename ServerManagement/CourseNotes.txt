@@ -232,3 +232,44 @@ Form Validations
 
 Lesson 21 - 08/03/25
 Navigation with NavigationManager & Dependency Injection
+	When the user clicks on the submit button, we want to take them back to the Manage Server Screen
+	Second Step
+	- We need to @inject NavigationManager 
+
+	We don't instantiate instances or objects in a class, because we don't want to have a dependency or manage their lifecycle
+		- We don't want to have to instantiate the class, or dispose of it (Improper disposal could cause a memory leak)
+		- We Inject the Component or Class with an instance of the class, but the component itself is not managing the instance
+			- We want the component and instantiated class to be "loosely coupled" so things don't break if the component or class change
+			- The Instance of the class comes from somewhere else, and "injected" into the component
+			- The lifespan of the class is handled else where.
+			?? Where ??
+				- The Framework knows the definition and manages the lifespan of the class 
+				- The DI Container (Dependency Injection Container)
+					- Knows the definition and the lifespan of the class
+				- We register the dependencies like the NavMng in Program.cs
+					- The DI Container is the Service Collection (Denoted in builder.Services in the Program.cs)
+						Example: builder.Services.AddRazorComponents();
+					Inside the Services Manager Definition
+					services.TryAddSingleton - This means there is only one instance of this class running within the lifetime of the application
+					TryAddScoped - This lives as long as the SignalR channel for server interactivity
+				- When we are done using it, the service cleans up the instance for us
+
+Lesson 24 - 08/07/25
+Use EditForm to delete data
+
+	(The below is a sample function that will actually not work, because it does not provide interactivty. Reviewed in video to show why forms are needed)
+		- We can bind a component function called DeleteServer(serverId) to the server we want to delete using it's ServerId
+			@onclick=" @( () => {DeleteServer(server.ServerId); })">Delete
+			bind onclick event " @explcit anonymous function goes to the component function, which calls the server interface"
+		- We then call the ServersRepository.DeleteServer(serverId) from the interface, to delete the server from the server list
+	We need to use an <EditForm> component to handle the submission
+		- Requires a Model="server"
+		- Requires a UNIQUE form name.
+			FormName="@($"form-server-{server.ServerId}")"
+				The app requires a uniqueId for each form, so we use the ServerId from each server instance, which is always unique
+		- Requires OnValidSubmit="@( () => {DeleteServer(server.serverId); })"
+			This is so the component and application knows what to do on submit (I think?)
+	We use EditForm instead of <a> because EditForm is an HTTP post.
+		It hides data, where the <a> shows URL and data in the html and browser data.
+
+	
