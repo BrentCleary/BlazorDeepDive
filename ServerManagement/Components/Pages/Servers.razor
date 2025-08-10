@@ -37,8 +37,8 @@
 <br />
 
 <ul>
-    @foreach(var server in servers)
-    {
+
+    <Virtualize Items="this.servers" Context="server"> 
         <li @key="server.ServerId" >
             @server.Name in @server.City is 
             <span style="color:@(server.IsOnline ? "green" : "red")">
@@ -55,7 +55,8 @@
                 <button type="submit" class="btn btn-primary">Delete</button>
             </EditForm>
         </li>
-    }
+    </Virtualize>
+     
 </ul>
 
 <p>
@@ -105,6 +106,14 @@
         this.selectedCity = cityName;
 
         this.servers = ServersRepository.GetServersByCity(this.selectedCity);
+
+        if( cityName == "Halifax")
+        {
+            for(int i = 16; i < 2000; i++)
+            {
+                servers.Add(new Server { ServerId = i, Name = $"Server{i}", City = "Halifax" });
+            }
+        }
     }
 
 

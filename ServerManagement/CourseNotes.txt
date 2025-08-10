@@ -534,7 +534,23 @@ Lesson 42 08/09/25 8:31
 Use Virtualization to improve list-rendering performance
 
 	This technique is used to improve the performance of rendering
+	Requirements:
+	1. Used to replace a foreach loop when there are two many items
+	2. The items being listed are the same height
+	3. Likely more than 200 items
 
+	To use it, remove the foreacha nd replace it with <Virtualize></Virtualize> with the item to loop over inside
+
+	<Virtualize Items="this.servers" Context="server">
+		<li> Item </li>
+	</Virtualize>
+
+	We have to define the item to virtualize (loop over) and provide the context (static variable)
+	Virtualize will only display the most recent items, and not load all 1000, but will update when you scroll to view
+
+	It knows the height of the item, and the size of the viewpoint, and only renders what can be seen.
+
+	** At this point in tutorial, Search function is not working for servers added over the intial 16
 
 
 
