@@ -271,5 +271,182 @@ Use EditForm to delete data
 			This is so the component and application knows what to do on submit (I think?)
 	We use EditForm instead of <a> because EditForm is an HTTP post.
 		It hides data, where the <a> shows URL and data in the html and browser data.
+		People can find the "DeleteServer" Url and visit it to delete data. You can build in security, but the EditForm obscures the url entirely.
 
+Lesson 28 : 08/19/25 12:22
+Use Enhanced form handling in Blazor SSR for interactivity
+	How do you load dynamic and responsive elements in 
+	Enhanced form handling helps make a form dynamic
+	
+	Using the EditForm Model
+	- Supply Model="server" as parameter
+	- Give the from a name for the app to reference. Can be anything as long as it's unique. serverComponentForm
+	- OnSubmit="ChangeServerStatus" - This is the function we will call on Submit. We supply this in the @code{} block
+		- This will toggle the server.IsOnline status, or any parameters provided
+
+	- All the other elements of the server Model need to be provided and bounded, so the model update is complete.
+		<InputNumber @bind-Value="server.ServerId" hidden></InputNumber>
+			- This will identify the serverId and keep the parameter hidde
+		<InputText @bind-Value="server.Name" hideen></InputText>
+        <InputText @bind-Value="server.City" hidden></InputText>
+        <InputCheckbox @bind-Value="server.IsOnline" hidden></InputCheckbox>
+	- All of these fields are bound and submitted, then the ChangeServerStatus() method is called, and updatest the server status on Submit
+
+	The page as describe above, will trigger a refresh on submit, and reload the page.
+	This is not interactive
+
+	Place the parameter Enhance="true" in the EditForm Component, and the form will rerender in place, updating just the component model
+
+
+Lesson 30 - 08/09/25 1:27
+Enable Server Interactivity how to make a component interactive
+
+We are going to acheive interactivity without using Enhance="true" as an <EditForm> property
+
+	- After the onclick="" method is added to the button elements,
+		<button type="button" class="btn btn-primary" @onclick="ChangeStatus">Turn On/Off</button>
+
+	- and the method is created in the @code{}
+		private void ChangeStatus()
+		{
+			if(server != null)
+			{        
+				this.server.IsOnline = !this.server.IsOnline;
+			}
+		}
+
+	In Program.cs
+		- Add .AddInteractiveServerRenderMode(); to the app.MapRazorComponents<App>()
+			app.MapRazorComponents<App>()
+			.AddInteractiveServerRenderMode();
+
+		- Add .AddInteractiveServerComponents(); to the builder.Services.AddRazorComponents();
+			builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+
+		- Add @rendermode="InteractiveServer" to the ServerComponent where it is being called
+		    <ServerComponent @rendermode="InteractiveServer"></ServerComponent>
+
+
+	Steps Summarized
+		1. Add .AddInteractiveServerRenderMode(); to the app.MapRazorComponents<App>()
+		2. Add .AddInteractiveServerComponents(); to the builder.Services.AddRazorComponents();
+		3. Add @rendermode="InteractiveServer" to the ServerComponent where it is being called
+
+Lesson 31 - 08/09/25 1:50
+Interactivity Location
+
+	Interactivity Location refers to the places you can add Interactivity as a parameter
+
+	There are two different places you can set interactivity on a component
+	1. On the page in the parent component (At the top with the @using statements
+		- Specifying the rendermode on the will set all sub components to Interactive
+		- Inside the component when it is called
+			- <Component  @rendermode="InteractiveServer"></Component>
+		- Inside the component, which will apply  @rendermode="InteractiveServer" to all subcomponents it calls on
+
+	2. Global Level - Inside App.razor
+		- <Routes @rendermode="InteractiveServer" />"
+		This will set the interactive servertype for all components called in Routes, and therefore across the entire application.
+
+	Recommended by Microsoft is to use the first type, and apply rendermode to specific components at different and specific levels
+		The reason you want specificty in rendermodes is
+			You can enable WebAssembly Interactivty on components for different rendering types
+			Specifying where the component is used is the versatile
+
+
+Lesson 32 - 08/09/25 2:15
+Server Interactivity in Visual Studio project template
+	Server interactivity and be selected and needs to be selected at project creation
+	If you want server interactivty, you need to select
+		Server
+			This will add the two server interactivity lines in Program.cs and all components that are generated
+		This will only generate for interactive pages
+	Setting server serverintercativty and selecting Global will place the @rendermode="serverinteractivity" on the <Routses /> component
+
+Lesson 33 - 08/09/25 2:33
+.NET 9 Updates: Include SSR in Global Server Interactivity location
+
+	This is for .NET 9
+	Server interactivity does not depend on cookies
+	If you want something to function with cookies
+		You have to set it to StaticServerSideRendering
+			You can exclude certain renderable components to use staticserversiderendering
+			It must be a Routable (Page) Component
+		@attribute [ExcludeFromInteractiveRouting]
+
+	At the App.razor component, you need to paste the following code below the html
+
+	@code{
+		[CascadingParameter]
+		private HttpContext HttpContext {get; set;} = default!;
+
+		private IComponentRenderMode? PageRenderMode
+		=> HttpContext.AcceptsInteractiveRouting() ? InteractiveServer : null;
+	}
+
+	<HeadOutlet @rendermode="@PageRenderMode" />
+	<Routes @tendermode="PageRenderMode" />
+
+	These need to be set in the App.razor component as well
+
+	The component will look for the render mode, and look for @attribute [ExcludeFromInteractiveRouting]
+	If the attribute is found, it will return Null for the rendermode
+		else it will return ServerInteractivity
+
+
+Lesson 34 - 08/09/25 2:53
+Three main aspects of interactive components
+
+	Once you use interactive components in Blazor, this is a "Stateful" application, because you have established a SignalR channel with the server
+		This is as opposed to a traditional application, which makes independent requests
+
+	Flow of interaction
+	User Interaction 
+		[View] > [Event] > [State] >>> [View] 
+		[View] >[E] > [S] >>> [V][E[S] > [VES]
+
+		In our ServerComponent.razor component
+			- html is the				[View]
+			- Server? server var is the [State]
+			- ChangeStatus() is the		[Event]
+
+
+Lesson 35 - 08/09/25 3:44
+Event Handling (Passing Data)
+
+	To pass the variable  city  that is being referenced into the foreach loop in the city view container
+	- Create the function SelectCity(string cityName){}
+	- Call it with an anonymous funciton in the @onclick="" event
+		@onclick="@( () => {SelectCity(); } )"
+
+	View is now set
+	Event Handling is set
+	Event Handler is going change the state variable
+
+	We need to declare the state variable
+	We create function SelectCity(string cityName)
+		This function sets the selectedCity value to the value clicked in view
+		Then it sets the servers value to the Servers of the selectedCity
+			This will cause the view to reload and display the servers of the selectedCity
+
+
+Lesson 36 08/09/25 4:10
+Assignment 4: Highlight current City
+
+	Set the selected city image or card container to be highlighted when selected
+	Keep in mind serverinteractivity as the primary focus of the lesson.
+	Instructor will be using bootstrap to achieve highlighting visual effect.
+
+
+Lesson 37 08/09/25 6:40
+Assignment:  4 Answer
+
+	Adding this case to the div will set conditional rendering for the border of the card if the   city   variable matches the selectedCity parameter
+	<div class="card @(selectedCity.Equals(city, StringComparison.OrdinalIgnoreCase) ? "border-primary" : "")" >
+
+
+Lesson 38 08/089/25 7:00 PM
+Update, state variables with Onchange event
+
+	
 	
