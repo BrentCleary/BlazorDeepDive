@@ -448,5 +448,22 @@ Assignment:  4 Answer
 Lesson 38 08/089/25 7:00 PM
 Update, state variables with Onchange event
 
-	
+	To search by Server, we are going to collect a filter parameter in a FormControl input box
+		This parameter is stored in a state variable called serverFilter
+		This variable is assigned by a function call
+			@onchange
+			which passes the container of the input box as an "args" object.
+		The function
+			@onchange function is assigned HandleServerFilterChange
+			which automaticlly assigns the value of the args to the serverFilter variable
+
+	The Search button is assigned a 
+		@onclick
+		event with the function "HandleSearch"
+		HandleSearch() assins the static servers parameter the value that is returned from the 
+			ServerRepository.SearchServers function
+				This function takes a value and passes it into a linq query, returning a list of all matching servers from the servers list
+		
+		The servers state variable then updates to show only the servers with matching values to the search field
+		selectedCity is also updated. The value is set to an empty string, as it is not longer reflecting a single city (servers from multiple cities can be returned)
 	

@@ -31,7 +31,6 @@
     <input type="text" class="form-control" placeholder="Search Servers" @onchange="HandleServerFilterChange" />
     <button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandleSearch">Search</button>
 </div>
-@serverFilter
 
 <br />
 
@@ -93,6 +92,9 @@
     private void HandleSearch()
     {
         this.servers = ServersRepository.SearchServers(serverFilter);
+
+        this.selectedCity = String.Empty;
+
     }
 
 
