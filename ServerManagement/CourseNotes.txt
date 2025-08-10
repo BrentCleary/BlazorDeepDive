@@ -455,15 +455,87 @@ Update, state variables with Onchange event
 			which passes the container of the input box as an "args" object.
 		The function
 			@onchange function is assigned HandleServerFilterChange
-			which automaticlly assigns the value of the args to the serverFilter variable
+			which automaticlly assigns the args.Value to the serverFilter variable
 
 	The Search button is assigned a 
 		@onclick
 		event with the function "HandleSearch"
-		HandleSearch() assins the static servers parameter the value that is returned from the 
+		HandleSearch() assigns the static servers parameter the value that is returned from the 
 			ServerRepository.SearchServers function
 				This function takes a value and passes it into a linq query, returning a list of all matching servers from the servers list
 		
 		The servers state variable then updates to show only the servers with matching values to the search field
 		selectedCity is also updated. The value is set to an empty string, as it is not longer reflecting a single city (servers from multiple cities can be returned)
 	
+Lesson 39 08/09/25 7:33 pm
+Two Way Data Binding
+
+	Two way Data Binding binds changes in the view to the state, and makes the event unncessary
+	In the Search Box Element
+		We place @bind-value="serverFilter"
+		- This is different because the "v" in "value" is lowercase
+
+		** Use Capitol V in EditForm
+			@bind-Value="variable"
+		** User lower v in other places
+			@bind-value="variable"
+	Behind the scenes, Blazor is handling the onchange="" event for us.
+
+	- Using this getter setter format, we can setup responsive searching
+	    private string _serverFilter = "";
+		private string serverFilter {
+			get => _serverFilter;
+			set
+			{
+				_serverFilter = value;
+				this.servers = ServersRepository.SearchServers(_serverFilter);
+			}
+		}
+
+		
+	Adding these parameters to the search function, specifically @bind-value:event="oninput", allows the filter to be set on each input in the field
+		<input type="text" class="form-control" placeholder="Search Servers" 
+        @bind-value="serverFilter" 
+        @bind-value:event="oninput" />
+	
+
+Lesson 40 08/09/25 8:05pm
+Interactive Edit Form
+	
+	Anything without a rendermode attribute is using Blazor SSR (Server Side Rendering)
+	When you have form interactivity
+		You don't need the FormName=""
+		You don't need to [SupplyParameterFromForm]
+	When the routable component becomes interactive
+		The EditForm component becomes interactive as well
+			When the submit button is clicked, the form is no longer submitted back to the server
+			Messages are sent throught SignalR channel and Submit is triggered on submisison
+	
+	We also have Databinding
+		All of the datavalue is automatically reflected (updated) in the state variable
+
+
+Lesson 41 08/09/25 8:16pm
+Use @key to improve list-rendering performance
+
+	Putting @key in a the <li> or <table> element in Blazor assigns a unique key to the element
+		Blazor does not allow duplicate keys
+	When an element is added or updated, it will be updated by it's key, and will only update that element
+		This allows new items in a list to be loaded without reloading the whole list, which could be thousands
+
+	@foreach(var server in servers)
+    {
+        <li @key="server.ServerId" >
+
+	Keys are always recommended to identify the items
+
+
+Lesson 42 08/09/25 8:31
+Use Virtualization to improve list-rendering performance
+
+	This technique is used to improve the performance of rendering
+
+
+
+
+
