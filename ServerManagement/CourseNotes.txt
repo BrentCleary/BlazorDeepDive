@@ -553,5 +553,25 @@ Use Virtualization to improve list-rendering performance
 	** At this point in tutorial, Search function is not working for servers added over the intial 16
 
 
+Lesson 43 : 08/10/25
+Requirement of To do list app
+
+	- Video overview of To Do List Application
+
+
+Lesson 44: 08/11/25
+Display a list of tasks use case
+
+	- Create new ""ToDoApp" Project inside of "BlazorDeepDive" Solution
+		- Add .AddInteractiveServerComponents() in Program.cs to builder.Services.AddRazorComponents()
+		- Add .InteractiveServerRenderMode()	in Program.cs to app.MapRazorComponents<App>()
+
+	- Create "ToDoItem"
+	- Create "ToDoItemRepository" based on ServerRepository. Copy more specifc code from video as they are not completely identical.
+
+
+
+
+
 
 
