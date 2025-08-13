@@ -569,8 +569,18 @@ Display a list of tasks use case
 	- Create "ToDoItem"
 	- Create "ToDoItemRepository" based on ServerRepository. Copy more specifc code from video as they are not completely identical.
 
+Lesson 45 08/12/25 8:45pm
+Add Task Use Case
 
-
+	- Add a button to the To Do List page
+	- Basic styling
+	- onclick="AddTask"
+		In @code{} block
+		private void AddTask(){
+			ToDoItemsRepository.AddItem(new ToDoItem { Name = "New Task" });
+		}
+	- Add @rendermode InteractiveServer functionality
+	- Reload the items list inside the AddTask() function to update the list
 
 
 
