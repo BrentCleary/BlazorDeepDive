@@ -583,5 +583,44 @@ Add Task Use Case
 	- Reload the items list inside the AddTask() function to update the list
 
 
+Lesson 46 08/13/25 7:08pm
+Input Task Name Use Case
+	
+	- Create an <input> element to add a name to the item.Name instead of just displaying the default name
+	- Add class="form-control border-0" to make the input boxes
+	- Use @bind-value="item.Name" to bind the name to the object
+		- This is two way binding and will update the memory, retaining the name over the life of the application run time (no permanent retention)
 
+
+Lesson 47 08/13/25 7:16 pm
+Mark task as completed Use Case
+
+	- We need to display the checkbox, allow the user to mark it as completed or uncompleted, and display the date
+	- Add a "row" bootstrap element to the container <div>
+		- Add 3 <div> with a class="col" inside the row div
+			                <div class="row mb-2">
+                    <div class="col-1">
+                        <input type="checkbox"
+                            class="form-check-input"
+                            @bind-value="item.IsCompleted"
+                            checked="@item.IsCompleted"/>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control border-0" @bind-value="item.Name" />
+                    </div>
+                    <div class="col">
+                        @if (item.IsCompleted)
+                        {
+                            <text>Completed at: @item.DateCompleted.ToLongDateString()</text>
+                        }
+                    </div>
+                </div>
+
+		<div> 1 will display our checkbox, and bind the value of the checkbox to the element.
+		<div> 2 will bind the item name
+		<div> 3 will display the date completed, if the items IsCompleted Bool is true.
+
+		- Adding class="list-unstyled" to the <ul> element containing the list will remove the bullet point styling
+
+		Implement {get; set;} functionality for IsComplete and _isComplete properties, and link to update DateCompleted Property
 
