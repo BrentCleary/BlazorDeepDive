@@ -2,6 +2,10 @@
 https://www.udemy.com/course/blazor-deep-dive-from-beginner-to-advanced/learn/lecture/42460400#overview
 
 
+Section 1
+Introduction
+
+
 LESSON 4
 
 app.Run() - This runs the application in a loop, listening for httpRequests coming in
@@ -52,6 +56,9 @@ This is returned to the App.Razor component and displayed
 
 LESSON 5: Link to the Source Code
 
+
+Section 2
+Blazor SSR
 
 LESSON 6: Two Types of Components
 
@@ -272,6 +279,12 @@ Use EditForm to delete data
 	We use EditForm instead of <a> because EditForm is an HTTP post.
 		It hides data, where the <a> shows URL and data in the html and browser data.
 		People can find the "DeleteServer" Url and visit it to delete data. You can build in security, but the EditForm obscures the url entirely.
+
+
+
+Section 3
+Add Server Interactivity
+
 
 Lesson 28 : 08/19/25 12:22
 Use Enhanced form handling in Blazor SSR for interactivity
@@ -553,6 +566,10 @@ Use Virtualization to improve list-rendering performance
 	** At this point in tutorial, Search function is not working for servers added over the intial 16
 
 
+Section 4
+Course Project (Part-1): To-Do List App Basics
+
+
 Lesson 43 : 08/10/25
 Requirement of To do list app
 
@@ -624,3 +641,54 @@ Mark task as completed Use Case
 
 		Implement {get; set;} functionality for IsComplete and _isComplete properties, and link to update DateCompleted Property
 
+
+
+Section 5
+Non-Routable Razor Component Deep-Div
+
+
+Lesson 48 08/14/25
+Thinking in Components
+
+	Single Responsibility Principle - As with classes, one Component should exist for only one reason
+		- We will be breaking down larger components into individual responsiblity components in the next videos
+
+
+Lesson 49 08/19/25
+Extract the ServerList Component
+
+	- Virtualize and the html elements and logic are pulled from the Servers.razor page, and placed in their own component.
+		- ServerListComponent.razor
+		- Debug all errors and bring the necessary Server functions and variable references into the code.
+		- Comment out any functionality that is throwing an error in the Servers.razor component. They can be updated later.
+	- The new component needs NavigationManager injected
+	- The component is now placed inside the Servers.razor page
+		- rendermode="InteractiveServer" must be called in the component html element (not the component itself) to get realtime rendering
+	- At this point, the page is re-rendering with NavigationManager, which is not interactivity, but this will be fixed in a later video
+
+Lesson 50 08/19/25
+Use Component Parameters to communicate from parent to child components
+
+	- When selecting a city in the Servers.razor page component(Parent)
+		- We need to pass the city to the ServerListComponent.razor(Child) to display the servers from that city
+	To pass the city value
+		- We declare parameter public string? CityName { get; set; } in the ServerListComponent.razor
+			[Parameter] needs to be declared over the variable to designate it as a Parameter for the component
+	In Servers.razor, declare the Pararmeter as
+			CityName="Halifax"
+		in the component html. This will pass the value into the component.
+
+	Use:
+		protected override void OnParametersSet()
+		{
+			servers = ServersRepository.GetServersByCity(CityName);
+		}
+	to get the parameter value from the parent, and pass it's value into the servers variable.
+	Remove the assignment from the variable declaration, and set the variable type to be nullable
+		private List<Server?> servers;
+	Put an if(servers != null) check around the component html to avoid null errors.
+	Add (CityName ?? "Toronto"); to the parameter for GetServersByCity() to default to Toronto if the value is null.
+
+	- In Servers.razor
+		- Set the CityName Parameter for the ServerListComponent.razor to @this.selectedCity (the variable previously declared in the parent component)
+			This will update the CityName Parameter, and update the ServerListComponent.razor server listings interactively 
