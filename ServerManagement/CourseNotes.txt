@@ -726,4 +726,5 @@ Extract city components
 	- Parameter will now be displaed and looped over, but selection functionality it not yet active
 
 
-Lesson 54 08/21/2025
+Lesson 54 08/21/2025 5:53 - 6:14
+Use EventCallback to pass info from child to parent components

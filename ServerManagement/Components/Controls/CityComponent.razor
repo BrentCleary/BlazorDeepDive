@@ -3,7 +3,7 @@
     <div class="card @(selectedCity.Equals(city, StringComparison.OrdinalIgnoreCase) ? "border-primary" : "")">
         <img src="@($"/images/{city}.png")" class="card-img-top" alt="Card image cap">
         <div class="card-body">
-            <button type="button" class="btn btn-primary" @onclick="@(() => { SelectCity(city); })">@city</button>
+            <button type="button" class="btn btn-primary" @onclick="@( () => { SelectCity(city); })">@city</button>
         </div>
     </div>
 </div>
@@ -16,9 +16,12 @@
     [Parameter]
     public string city { get; set; } = "";
 
+    [Parameter]
+    public EventCallback<string> SelectCityCallback { get; set; }
+
     private void SelectCity(string cityName)
     {
-        
+        SelectCityCallback.InvokeAsync(cityName);
     }
 
 }
