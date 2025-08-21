@@ -654,7 +654,7 @@ Thinking in Components
 		- We will be breaking down larger components into individual responsiblity components in the next videos
 
 
-Lesson 49 08/19/25
+Lesson 49 08/19/25 8:15 PM
 Extract the ServerList Component
 
 	- Virtualize and the html elements and logic are pulled from the Servers.razor page, and placed in their own component.
@@ -666,7 +666,7 @@ Extract the ServerList Component
 		- rendermode="InteractiveServer" must be called in the component html element (not the component itself) to get realtime rendering
 	- At this point, the page is re-rendering with NavigationManager, which is not interactivity, but this will be fixed in a later video
 
-Lesson 50 08/19/25
+Lesson 50 08/19/25 8:45 PM
 Use Component Parameters to communicate from parent to child components
 
 	- When selecting a city in the Servers.razor page component(Parent)
@@ -692,3 +692,16 @@ Use Component Parameters to communicate from parent to child components
 	- In Servers.razor
 		- Set the CityName Parameter for the ServerListComponent.razor to @this.selectedCity (the variable previously declared in the parent component)
 			This will update the CityName Parameter, and update the ServerListComponent.razor server listings interactively 
+
+	Complete 08/19/2025 9:07 PM
+
+
+Lesson 51 08/20/2025 8:25PM
+Assignment 5: Extract the Server Component
+
+	- Overview of assignment.
+
+Lesson 52 08/20/2025 8:27
+Assignment 5: Answer
+
+	- 
