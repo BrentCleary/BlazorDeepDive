@@ -704,4 +704,26 @@ Assignment 5: Extract the Server Component
 Lesson 52 08/20/2025 8:27
 Assignment 5: Answer
 
-	- 
+	- Extract the ServerList Html Element from the Virtualize parameter in the SererListComponent.razor
+		- Paste it into the ServerComponent.razor element
+	- Copy and paste the DeleteServer() method into the @code block.
+	- Update the server variable to a parameter by adding [Parameter] attribute names to Server using find and replace
+		- Update all instance of server to Server to match
+	- Add the component into the Virtualize field
+		- The render mode does not need to be specificed in the ServerComponent element. It is being specified in the Servers.razor element
+			- The defines the render mode for all child elements down the chain
+
+Lesson 53 08/20/25 8:45
+Extract city components
+
+	- Pull City component elements out of CityListComponent.razor and place in CityComponent.razor
+		- Pull all relevant methods and variables
+		- Declare variables as parameters
+	- Place CityComponent in CityListComponent.razor html
+		- Add city="@city" as parameter in for-loop
+		- Add selectedCity="@selectedCity"
+			- Component parameters must be declared as "@param" in component, otherwise will be recognize as string is just "city" is declared
+	- Parameter will now be displaed and looped over, but selection functionality it not yet active
+
+
+Lesson 54 08/21/2025
